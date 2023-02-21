@@ -1,11 +1,11 @@
 import { min } from 'lodash'
 
-import { BodyComponent } from 'mjml-core'
+import { BodyComponent, makeLowerBreakpoint } from 'mjml-core'
 
 import widthParser from 'mjml-core/lib/helpers/widthParser'
 
 export default class MjImage extends BodyComponent {
-  static tagOmission = true
+  static componentName = 'mj-image'
 
   static allowedAttributes = {
     alt: 'string',
@@ -56,10 +56,10 @@ export default class MjImage extends BodyComponent {
     return {
       img: {
         border: this.getAttribute('border'),
-        'border-left': this.getAttribute('left'),
-        'border-right': this.getAttribute('right'),
-        'border-top': this.getAttribute('top'),
-        'border-bottom': this.getAttribute('bottom'),
+        'border-left': this.getAttribute('border-left'),
+        'border-right': this.getAttribute('border-right'),
+        'border-top': this.getAttribute('border-top'),
+        'border-bottom': this.getAttribute('border-bottom'),
         'border-radius': this.getAttribute('border-radius'),
         display: 'block',
         outline: 'none',
@@ -101,7 +101,6 @@ export default class MjImage extends BodyComponent {
       <img
         ${this.htmlAttributes({
           alt: this.getAttribute('alt'),
-          height: height && (height === 'auto' ? height : parseInt(height, 10)),
           src: this.getAttribute('src'),
           srcset: this.getAttribute('srcset'),
           sizes: this.getAttribute('sizes'),
@@ -109,6 +108,9 @@ export default class MjImage extends BodyComponent {
           title: this.getAttribute('title'),
           width: this.getContentWidth(),
           usemap: this.getAttribute('usemap'),
+          ...(height
+            ? { height: height === 'auto' ? height : parseInt(height, 10) }
+            : {}),
         })}
       />
     `
@@ -121,6 +123,7 @@ export default class MjImage extends BodyComponent {
             target: this.getAttribute('target'),
             rel: this.getAttribute('rel'),
             name: this.getAttribute('name'),
+            title: this.getAttribute('title'),
           })}
         >
           ${img}
@@ -132,7 +135,7 @@ export default class MjImage extends BodyComponent {
   }
 
   headStyle = (breakpoint) => `
-    @media only screen and (max-width:${breakpoint}) {
+    @media only screen and (max-width:${makeLowerBreakpoint(breakpoint)}) {
       table.mj-full-width-mobile { width: 100% !important; }
       td.mj-full-width-mobile { width: auto !important; }
     }

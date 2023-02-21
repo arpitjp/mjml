@@ -30,11 +30,16 @@ This tag allows you to display table and filled it with data. It only accepts pl
 </mjml>
 ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/table">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="try it live" />
   </a>
 </p>
+
+<aside class="notice">
+  `mj-table` is an "ending tag", which means it can contain HTML code which will be left as it is, so it can contain HTML tags with attributes, but it cannot contain other MJML components. In `mj-table` specifically, you can put anything you would put in a `&lt;table&gt;` element. More information about ending tags <a href="#ending-tags">in this section</a>.
+</aside>
+
 
 attribute                   | unit                        | description                    | default value
 ----------------------------|-----------------------------|------------------------------- |--------------
@@ -47,12 +52,12 @@ container-background-color  | color                       | inner element backgr
 css-class                   | string                      | class name, added to the root HTML element created | n/a
 font-family                 | string                      | font name                      | Ubuntu, Helvetica, Arial, sans-serif
 font-size                   | px                          | font size                      | 13px
-font-style                  | string                      | font style                     | n/a
 line-height                 | percent/px                  | space between lines            | 22px
 padding                     | percent/px                  | supports up to 4 parameters    | 10px 25px
 padding-bottom              | percent/px                  | bottom offset                  | n/a
 padding-left                | percent/px                  | left offset                    | n/a
 padding-right               | percent/px                  | right offset                   | n/a
 padding-top                 | percent/px                  | top offset                     | n/a
+role                        | none/presentation           | specify the role attribute     | n/a
 table-layout                | auto/fixed/initial/inherit  | sets the table layout.         | auto
 width                       | percent/px                  | table width                    | 100%

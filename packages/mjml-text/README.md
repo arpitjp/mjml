@@ -1,16 +1,17 @@
 ## mj-text
 
-This tag allows you to display text in your email.
+This tag allows you to display text and HTML in your email.
 
  ```xml
 <mjml>
   <mj-body>
     <mj-section>
       <mj-column>
-        <mj-text>
-          <h1>
-            Hey Title!
-          </h1>
+        <mj-text font-family="Helvetica" color="#F45E43">
+          <h1>Title</h1>
+
+          <p>Paragraph</p>
+          <p style="font-family:Comic Sans Ms">Another paragraph</p>
         </mj-text>
       </mj-column>
     </mj-section>
@@ -18,15 +19,16 @@ This tag allows you to display text in your email.
 </mjml>
  ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/text">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="try it live" />
   </a>
 </p>
 
 <aside class="notice">
-  `MjText` can contain any HTML tag with any attributes. Don't forget to encode special characters to avoid unexpected behaviour from MJML's parser
+  `mj-text` is an "ending tag", which means it can contain HTML code which will be left as it is, so it can contain HTML tags with attributes, but it cannot contain other MJML components. More information about ending tags <a href="#ending-tags">in this section</a>.
 </aside>
+
 
  attribute                    | unit          | description                                 | default value
 ------------------------------|---------------|---------------------------------------------|-------------------------------------

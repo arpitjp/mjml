@@ -1,10 +1,17 @@
 ## mj-button
 
-<p align="center">
-  <img src="https://cloud.githubusercontent.com/assets/6558790/12751346/fd993192-c9bc-11e5-8c91-37d616bf5874.png" alt="desktop" width="150px" />
+<p style="text-align: center;" >
+  <img src="https://cloud.githubusercontent.com/assets/6558790/12751346/fd993192-c9bc-11e5-8c91-37d616bf5874.png"
+       alt="desktop" width="150px" />
 </p>
 
 Displays a customizable button.
+
+<aside class="notice">
+  The `mj-button` won't be fully clickable because of client support.
+  See discussion at
+    <a href="https://github.com/mjmlio/mjml/issues/359">Issue #359</a>.
+</aside>
 
 ```xml
 <mjml>
@@ -20,11 +27,16 @@ Displays a customizable button.
 </mjml>
 ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/button">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="try it live" />
   </a>
 </p>
+
+<aside class="notice">
+  `mj-button` is an "ending tag", which means it can contain HTML code which will be left as it is, so it can contain HTML tags with attributes, but it cannot contain other MJML components. More information about ending tags <a href="#ending-tags">in this section</a>.
+</aside>
+
 
 attribute                   | unit        | description                                      | default value
 ----------------------------|-------------|--------------------------------------------------|---------------------
@@ -58,5 +70,6 @@ target                      | string      | specify the target attribute for the
 text-align                  | string      | text-align button content                        | none
 text-decoration             | string      | underline/overline/none                          | none
 text-transform              | string      | capitalize/uppercase/lowercase                   | none
+title                       | string      | tooltip & accessibility                          | n/a
 vertical-align              | string      | vertical alignment                               | middle
 width                       | px          | button width                                     | n/a

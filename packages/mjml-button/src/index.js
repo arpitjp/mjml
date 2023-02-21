@@ -3,6 +3,8 @@ import { BodyComponent } from 'mjml-core'
 import widthParser from 'mjml-core/lib/helpers/widthParser'
 
 export default class MjButton extends BodyComponent {
+  static componentName = 'mj-button'
+
   static endingTag = true
 
   static allowedAttributes = {
@@ -23,6 +25,7 @@ export default class MjButton extends BodyComponent {
     height: 'unit(px,%)',
     href: 'string',
     name: 'string',
+    title: 'string',
     'inner-padding': 'unit(px,%){1,4}',
     'letter-spacing': 'unitWithNegative(px,em)',
     'line-height': 'unit(px,%,)',
@@ -130,32 +133,35 @@ export default class MjButton extends BodyComponent {
           style: 'table',
         })}
       >
-        <tr>
-          <td
-            ${this.htmlAttributes({
-              align: 'center',
-              bgcolor:
-                this.getAttribute('background-color') === 'none'
-                  ? undefined
-                  : this.getAttribute('background-color'),
-              role: 'presentation',
-              style: 'td',
-              valign: this.getAttribute('vertical-align'),
-            })}
-          >
-            <${tag}
+        <tbody>
+          <tr>
+            <td
               ${this.htmlAttributes({
-                href: this.getAttribute('href'),
-                rel: this.getAttribute('rel'),
-                name: this.getAttribute('name'),
-                style: 'content',
-                target: tag === 'a' ? this.getAttribute('target') : undefined,
+                align: 'center',
+                bgcolor:
+                  this.getAttribute('background-color') === 'none'
+                    ? undefined
+                    : this.getAttribute('background-color'),
+                role: 'presentation',
+                style: 'td',
+                valign: this.getAttribute('vertical-align'),
               })}
             >
-              ${this.getContent()}
-            </${tag}>
-          </td>
-        </tr>
+              <${tag}
+                ${this.htmlAttributes({
+                  href: this.getAttribute('href'),
+                  name: this.getAttribute('name'),
+                  rel: this.getAttribute('rel'),
+                  title: this.getAttribute('title'),
+                  style: 'content',
+                  target: tag === 'a' ? this.getAttribute('target') : undefined,
+                })}
+              >
+                ${this.getContent()}
+              </${tag}>
+            </td>
+          </tr>
+        </tbody>
       </table>
     `
   }

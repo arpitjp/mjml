@@ -4,6 +4,8 @@ import { flow, identity, join, filter } from 'lodash/fp'
 const makeBackgroundString = flow(filter(identity), join(' '))
 
 export default class MjSection extends BodyComponent {
+  static componentName = 'mj-section'
+
   static allowedAttributes = {
     'background-color': 'color',
     'background-url': 'string',
@@ -19,7 +21,7 @@ export default class MjSection extends BodyComponent {
     'border-right': 'string',
     'border-top': 'string',
     direction: 'enum(ltr,rtl)',
-    'full-width': 'enum(full-width)',
+    'full-width': 'enum(full-width,false,)',
     padding: 'unit(px,%){1,4}',
     'padding-top': 'unit(px,%)',
     'padding-bottom': 'unit(px,%)',
@@ -110,7 +112,7 @@ export default class MjSection extends BodyComponent {
       this.getAttribute('background-color'),
       ...(this.hasBackground()
         ? [
-            `url(${this.getAttribute('background-url')})`,
+            `url('${this.getAttribute('background-url')}')`,
             this.getBackgroundString(),
             `/ ${this.getAttribute('background-size')}`,
             this.getAttribute('background-repeat'),
@@ -187,6 +189,9 @@ export default class MjSection extends BodyComponent {
 
   renderBefore() {
     const { containerWidth } = this.context
+    const bgcolorAttr = this.getAttribute('background-color')
+      ? { bgcolor: this.getAttribute('background-color') }
+      : {}
 
     return `
       <!--[if mso | IE]>
@@ -197,8 +202,10 @@ export default class MjSection extends BodyComponent {
           cellpadding: '0',
           cellspacing: '0',
           class: suffixCssClasses(this.getAttribute('css-class'), 'outlook'),
+          role: 'presentation',
           style: { width: `${containerWidth}` },
           width: parseInt(containerWidth, 10),
+          ...bgcolorAttr,
         })}
       >
         <tr>

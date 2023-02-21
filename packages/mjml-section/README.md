@@ -13,7 +13,7 @@ They will be used to structure the layout.
 </mjml>
 ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/section">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="try it live" />
   </a>
@@ -28,11 +28,7 @@ changed to 100%.
 </aside>
 
 <aside class="warning">
-  Sections cannot be nested into sections. Also, any content in a section should also be wrapped in a column.
-</aside>
-
-<aside class="warning">
-  Sections cannot be nested into sections. Also, any content in a section should also be wrapped in a column.
+  Sections cannot nest in sections. Columns can nest in sections; all content must be in a column.
 </aside>
 
 attribute             | unit        | description                    | default value

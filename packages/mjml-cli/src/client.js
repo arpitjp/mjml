@@ -1,11 +1,13 @@
 import path from 'path'
 import yargs from 'yargs'
 import { flow, pick, isNil, negate, pickBy } from 'lodash/fp'
-import { isArray, isEmpty, map, get } from 'lodash'
+import { isArray, isEmpty, map, get, omit } from 'lodash'
+import { html as htmlBeautify } from 'js-beautify'
+import { minify as htmlMinify } from 'html-minifier'
 
 import mjml2html, { components, initializeType } from 'mjml-core'
 import migrate from 'mjml-migrate'
-import validate from 'mjml-validator'
+import validate, { dependencies } from 'mjml-validator'
 import MJMLParser from 'mjml-parser-xml'
 
 import { version as coreVersion } from 'mjml-core/package.json'
@@ -17,6 +19,21 @@ import outputToConsole from './commands/outputToConsole'
 
 import { version as cliVersion } from '../package.json'
 import DEFAULT_OPTIONS from './helpers/defaultOptions'
+
+const beautifyConfig = {
+  indent_size: 2,
+  wrap_attributes_indent_size: 2,
+  max_preserve_newline: 0,
+  preserve_newlines: false,
+  end_with_newline: true,
+}
+
+const minifyConfig = {
+  collapseWhitespace: true,
+  minifyCSS: false,
+  caseSensitive: true,
+  removeEmptyAttributes: true,
+}
 
 export default async () => {
   let EXIT_CODE = 0
@@ -45,7 +62,7 @@ export default async () => {
       },
       m: {
         alias: 'migrate',
-        describe: 'Migrate MJML3 File(s)',
+        describe: 'Migrate MJML3 File(s) (deprecated)',
         type: 'array',
       },
       v: {
@@ -78,6 +95,10 @@ export default async () => {
       },
       version: {
         alias: 'V',
+      },
+      noStdoutFileComment: {
+        type: 'boolean',
+        describe: 'Add no file comment to stdout',
       },
     })
     .help()
@@ -124,6 +145,7 @@ export default async () => {
     minifyOptions && { minifyOptions },
     juiceOptions && { juiceOptions },
     juicePreserveTags && { juicePreserveTags },
+    argv.c && argv.c.keepComments === 'false' && { keepComments: false },
   )
 
   const inputArgs = pickArgs(['r', 'w', 'i', '_', 'm', 'v'])(argv)
@@ -172,7 +194,12 @@ export default async () => {
       break
     }
     case 'w':
-      watchFiles(inputFiles, { ...argv, config })
+      watchFiles(inputFiles, {
+        ...argv,
+        config,
+        minifyConfig,
+        beautifyConfig,
+      })
       KEEP_OPEN = true
       break
     case 'i':
@@ -193,17 +220,39 @@ export default async () => {
           compiled = { html: migrate(i.mjml, { beautify: true }) }
           break
         case 'v': // eslint-disable-next-line no-case-declarations
-          const mjmlJson = MJMLParser(i.mjml, { components })
-          compiled = {
-            errors: validate(mjmlJson, { components, initializeType }),
-          }
-          break
-        default:
-          compiled = mjml2html(i.mjml, {
-            ...config,
+          const mjmlJson = MJMLParser(i.mjml, {
+            components,
             filePath: filePath || i.file,
             actualPath: i.file,
           })
+          compiled = {
+            errors: validate(mjmlJson, {
+              dependencies,
+              components,
+              initializeType,
+            }),
+          }
+          break
+
+        default: {
+          const beautify = config.beautify && config.beautify !== 'false'
+          const minify = config.minify && config.minify !== 'false'
+
+          compiled = mjml2html(i.mjml, {
+            ...omit(config, ['minify', 'beautify']),
+            filePath: filePath || i.file,
+            actualPath: i.file,
+          })
+          if (beautify) {
+            compiled.html = htmlBeautify(compiled.html, beautifyConfig)
+          }
+          if (minify) {
+            compiled.html = htmlMinify(compiled.html, {
+              ...minifyConfig,
+              ...config.minifyOptions,
+            })
+          }
+        }
       }
 
       convertedStream.push({ ...i, compiled })
@@ -272,7 +321,8 @@ export default async () => {
       break
     }
     case 's': {
-      Promise.all(convertedStream.map(outputToConsole))
+      const addFileHeaderComment = !argv.noStdoutFileComment
+      Promise.all(convertedStream.map(converted => outputToConsole(converted, addFileHeaderComment)))
         .then(() => (process.exitCode = EXIT_CODE)) // eslint-disable-line no-return-assign
         .catch(() => (process.exitCode = 1)) // eslint-disable-line no-return-assign
       break

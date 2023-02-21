@@ -6,6 +6,8 @@ import widthParser from 'mjml-core/lib/helpers/widthParser'
 const makeBackgroundString = flow(filter(identity), join(' '))
 
 export default class MjHero extends BodyComponent {
+  static componentName = 'mj-hero'
+
   static allowedAttributes = {
     mode: 'string',
     height: 'unit(px,%)',
@@ -13,6 +15,7 @@ export default class MjHero extends BodyComponent {
     'background-width': 'unit(px,%)',
     'background-height': 'unit(px,%)',
     'background-position': 'string',
+    'border-radius': 'string',
     'container-background-color': 'color',
     'inner-background-color': 'color',
     'inner-padding': 'unit(px,%){1,4}',
@@ -100,6 +103,7 @@ export default class MjHero extends BodyComponent {
         background: this.getBackground(),
         'background-position': this.getAttribute('background-position'),
         'background-repeat': 'no-repeat',
+        'border-radius': this.getAttribute('border-radius'),
         padding: this.getAttribute('padding'),
         'padding-top': this.getAttribute('padding-top'),
         'padding-left': this.getAttribute('padding-left'),
@@ -153,7 +157,7 @@ export default class MjHero extends BodyComponent {
       this.getAttribute('background-color'),
       ...(this.getAttribute('background-url')
         ? [
-            `url(${this.getAttribute('background-url')})`,
+            `url('${this.getAttribute('background-url')}')`,
             'no-repeat',
             `${this.getAttribute('background-position')} / cover`,
           ]
@@ -195,60 +199,64 @@ export default class MjHero extends BodyComponent {
             style: 'inner-table',
           })}
         >
-          <tr>
-            <td ${this.htmlAttributes({ style: 'inner-td' })} >
-              <table
-                ${this.htmlAttributes({
-                  border: '0',
-                  cellpadding: '0',
-                  cellspacing: '0',
-                  role: 'presentation',
-                  style: 'inner-table',
-                })}
-              >
-                ${this.renderChildren(children, {
-                  renderer: (component) =>
-                    component.constructor.isRawElement()
-                      ? component.render()
-                      : `
-                    <tr>
-                      <td
-                        ${component.htmlAttributes({
-                          align: component.getAttribute('align'),
-                          background: component.getAttribute(
-                            'container-background-color',
-                          ),
-                          class: component.getAttribute('css-class'),
-                          style: {
-                            background: component.getAttribute(
-                              'container-background-color',
-                            ),
-                            'font-size': '0px',
-                            padding: component.getAttribute('padding'),
-                            'padding-top': component.getAttribute(
-                              'padding-top',
-                            ),
-                            'padding-right': component.getAttribute(
-                              'padding-right',
-                            ),
-                            'padding-bottom': component.getAttribute(
-                              'padding-bottom',
-                            ),
-                            'padding-left': component.getAttribute(
-                              'padding-left',
-                            ),
-                            'word-break': 'break-word',
-                          },
-                        })}
-                      >
-                        ${component.render()}
-                      </td>
-                    </tr>
-                  `,
-                })}
-              </table>
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td ${this.htmlAttributes({ style: 'inner-td' })} >
+                <table
+                  ${this.htmlAttributes({
+                    border: '0',
+                    cellpadding: '0',
+                    cellspacing: '0',
+                    role: 'presentation',
+                    style: 'inner-table',
+                  })}
+                >
+                  <tbody>
+                    ${this.renderChildren(children, {
+                      renderer: (component) =>
+                        component.constructor.isRawElement()
+                          ? component.render()
+                          : `
+                        <tr>
+                          <td
+                            ${component.htmlAttributes({
+                              align: component.getAttribute('align'),
+                              background: component.getAttribute(
+                                'container-background-color',
+                              ),
+                              class: component.getAttribute('css-class'),
+                              style: {
+                                background: component.getAttribute(
+                                  'container-background-color',
+                                ),
+                                'font-size': '0px',
+                                padding: component.getAttribute('padding'),
+                                'padding-top': component.getAttribute(
+                                  'padding-top',
+                                ),
+                                'padding-right': component.getAttribute(
+                                  'padding-right',
+                                ),
+                                'padding-bottom': component.getAttribute(
+                                  'padding-bottom',
+                                ),
+                                'padding-left': component.getAttribute(
+                                  'padding-left',
+                                ),
+                                'word-break': 'break-word',
+                              },
+                            })}
+                          >
+                            ${component.render()}
+                          </td>
+                        </tr>
+                      `,
+                    })}
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
       <!--[if mso | IE]>
@@ -340,13 +348,15 @@ export default class MjHero extends BodyComponent {
             style: 'table',
           })}
         >
-          <tr
-            ${this.htmlAttributes({
-              style: 'tr',
-            })}
-          >
-            ${this.renderMode()}
-          </tr>
+          <tbody>
+            <tr
+              ${this.htmlAttributes({
+                style: 'tr',
+              })}
+            >
+              ${this.renderMode()}
+            </tr>
+          </tbody>
       </table>
     </div>
     <!--[if mso | IE]>

@@ -1,6 +1,6 @@
 ## mj-title
 
-This tag allows you to set the title of an MJML document
+Defines the document's title that browsers show in the title bar or a page's tab.
 
  ```xml
 <mjml>
@@ -19,7 +19,7 @@ This tag allows you to set the title of an MJML document
 </mjml>
  ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/head-title">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="try it live" />
   </a>

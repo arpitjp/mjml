@@ -15,7 +15,7 @@ Note that if no width is provided, the image will use the parent column width.
 </mjml>
 ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/image">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="try it live" />
   </a>
@@ -27,12 +27,17 @@ attribute                     | unit          | description                    |
 align                         | position      | image alignment                | center
 alt                           | string        | image description              | n/a
 border                        | string        | css border definition          | none
+border-top                    | string        | css border definition          | none
+border-bottom                 | string        | css border definition          | none
+border-left                   | string        | css border definition          | none
+border-right                  | string        | css border definition          | none
 border-radius                 | px            | border radius                  | n/a
 container-background-color    | color         | inner element background color | n/a
 css-class                     | string        | class name, added to the root HTML element created | n/a
 fluid-on-mobile               | string        | if "true", will be full width on mobile even if width is set | n/a
 height                        | px            | image height                   | auto
 href                          | url           | link to redirect to on click   | n/a
+name                          | string        | specify the link name attribute | n/a
 padding                       | px            | supports up to 4 parameters    | 10px 25px
 padding-bottom                | px            | bottom offset                  | n/a
 padding-left                  | px            | left offset                    | n/a
@@ -45,5 +50,4 @@ srcset                        | url & width   | enables to set a different image
 target                        | string        | link target on click           | \_blank
 title                         | string        | tooltip & accessibility        | n/a
 usemap                        | string        | reference to image map, be careful, it isn't supported everywhere         | n/a
-width                         | px            | image width                    | 100%
-
+width                         | px            | image width                    | parent width

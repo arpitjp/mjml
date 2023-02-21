@@ -1,6 +1,6 @@
 ## mj-social
 
-<p align="center">
+<p style="text-align: center;" >
   <img src="https://cloud.githubusercontent.com/assets/6558790/12751360/0c78ce48-c9bd-11e5-98ca-4a2ac9e6341b.png" alt="desktop" style="width: 250px;"/>
 </p>
 
@@ -28,11 +28,15 @@ Displays calls-to-action for various social networks with their associated logo.
 </mjml>
 ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/social">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="try it live" />
   </a>
 </p>
+
+<aside class="notice">
+  `mj-social-element` is an "ending tag", which means it can contain HTML code which will be left as it is, so it can contain HTML tags with attributes, but it cannot contain other MJML components. More information about ending tags <a href="#ending-tags">in this section</a>.
+</aside>
 
 
 attribute                   | unit        | description                   | default value
@@ -62,7 +66,7 @@ text-decoration             | string      | underline/overline/none       | none
 
 ### mj-social-element
 
-This component enables you to display a given social network inside `mj-social`.  
+This component enables you to display a given social network inside `mj-social`.
 Note that default icons are transparent, which allows `background-color` to actually be the icon color.
 
 
@@ -93,30 +97,31 @@ text-padding                | px          | padding around the text       | 4px 
 sizes                       | media query & width | set icon width based on query | n/a
 src                         | url         | image source                  | Each social `name` has its own default
 srcset                      | url & width | set a different image source based on the viewport | n/a
+rel                         | string      | specify the rel attribute for the link    | n/a
 target                      | string      | link target                   | \_blank
 title                       | string      | img title attribute           | none
 text-decoration             | string      | underline/overline/none       | none
 vertical-align              | string      | top/middle/bottom             | middle
 
-Supported networks with a share url:  
-- facebook  
-- twitter  
-- google  
-- pinterest  
-- linkedin  
-- tumblr  
-- xing  
+Supported networks with a share url:
+- facebook
+- twitter
+- google
+- pinterest
+- linkedin
+- tumblr
+- xing
 
-Without a share url:  
-- github  
-- instagram  
-- web  
-- snapchat  
-- youtube  
-- vimeo  
-- medium  
-- soundcloud  
-- dribbble  
+Without a share url:
+- github
+- instagram
+- web
+- snapchat
+- youtube
+- vimeo
+- medium
+- soundcloud
+- dribbble
 
 When using a network with share url, the `href` attribute will be inserted in the share url (i.e. `https://www.facebook.com/sharer/sharer.php?u=[[URL]]`). To keep your `href` unchanged, add `-noshare` to the network name. Example :
 

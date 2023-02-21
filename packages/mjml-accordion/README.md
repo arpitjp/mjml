@@ -1,10 +1,15 @@
 ## mj-accordion
 
-<p align="center">
+<p style="text-align: center;" >
   <img src="https://i.imgur.com/C4S9MVc.gif" alt="accordion" />
 </p>
 
 `mj-accordion` is an interactive MJML component to stack content in tabs, so the information is collapsed and only the titles are visible. Readers can interact by clicking on the tabs to reveal the content, providing a great experience on mobile devices where space is scarce.
+
+<aside class="notice">
+  `mj-accordion-text` and `mj-accordion-title` are "ending tags", which means they can contain HTML code which will be left as it is, so they can contain HTML tags with attributes, but they cannot contain other MJML components. More information about ending tags <a href="#ending-tags">in this section</a>.
+</aside>
+
 
 ```xml
 <mjml>
@@ -44,21 +49,16 @@
 </mjml>
 ```
 
-<p align="center">
+<p style="text-align: center;" >
   <a href="https://mjml.io/try-it-live/components/accordion">
     <img width="100px" src="https://mjml.io/assets/img/svg/TRYITLIVE.svg" alt="sexy" />
   </a>
 </p>
 
-<aside class="notice">
-Every attribute in `mj-accordion` are applied to `mj-accordion-element` unless you override them on `mj-accordion-element`
-</aside>
-
-
 attribute | unit | description | default value
 ----------|------|-------------|---------------
-border | n/a | border | n/a
-container-background-color | n/a | background-color of the cell | n/a,
+border | string | CSS border format | 2px solid black
+container-background-color | n/a | background-color of the cell | n/a
 css-class | string | class name, added to the root HTML element created | n/a
 font-family | n/a | font | Ubuntu, Helvetica, Arial, sans-serif
 icon-align | n/a | icon alignment | middle
@@ -77,11 +77,18 @@ padding-top | px | padding top | n/a
 
 ### mj-accordion-element
 
-This component enables you to create a accordion pane
+Creates an accordion title/text pair.
+An accordion can have any number of these pairs.
+
+<aside class="notice">
+Inheritance applies between attributes supported in both `mj-accordion` and
+`mj-accordion-element` unless `mj-accordion-element` overrides.
+</aside>
 
 attribute | unit | description | default value
 ----------|------|-------------|---------------
 background-color | n/a | background color | n/a
+border | n/a | border | affects each horizontal border in the accordion except the top one
 css-class | string | class name, added to the root HTML element created | n/a
 font-family | n/a | font | Ubuntu, Helvetica, Arial, sans-serif
 icon-align | n/a | icon alignment | middle
@@ -95,7 +102,7 @@ icon-wrapped-url | n/a | icon when accordion is wrapped | https://i.imgur.com/bI
 
 ### mj-accordion-title
 
-This component enables you to add and style a title to your accordion
+The title in a title/text pair.
 
 attribute | unit | description | default value
 ----------|------|-------------|---------------
@@ -112,7 +119,7 @@ padding-top | px | padding top | n/a
 
 ### mj-accordion-text
 
-This component enables you to add and style a text to your accordion
+The text in a title/text pair.
 
 attribute | unit | description | default value
 ----------|------|-------------|---------------
@@ -121,9 +128,11 @@ color | n/a | text color | n/a
 css-class | string | class name, added to the root HTML element created | n/a
 font-family | n/a | font family | Ubuntu, Helvetica, Arial, sans-serif
 font-size | px | font size | 13px
+font-weight | number | text thickness | n/a
+letter-spacing | px,em | letter spacing | none
+line-height | px | space between the lines | 1
 padding | px | padding | 16px
 padding-bottom | px | padding bottom | n/a
 padding-left | px | padding left | n/a
 padding-right | px | padding right | n/a
 padding-top | px | padding top | n/a
-

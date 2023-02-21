@@ -3,6 +3,8 @@ import { BodyComponent } from 'mjml-core'
 import widthParser from 'mjml-core/lib/helpers/widthParser'
 
 export default class MjColumn extends BodyComponent {
+  static componentName = 'mj-column'
+
   static allowedAttributes = {
     'background-color': 'color',
     border: 'string',
@@ -246,36 +248,40 @@ export default class MjColumn extends BodyComponent {
           width: '100%',
         })}
       >
-        ${this.renderChildren(children, {
-          renderer: (component) =>
-            component.constructor.isRawElement()
-              ? component.render()
-              : `
-            <tr>
-              <td
-                ${component.htmlAttributes({
-                  align: component.getAttribute('align'),
-                  'vertical-align': component.getAttribute('vertical-align'),
-                  class: component.getAttribute('css-class'),
-                  style: {
-                    background: component.getAttribute(
-                      'container-background-color',
-                    ),
-                    'font-size': '0px',
-                    padding: component.getAttribute('padding'),
-                    'padding-top': component.getAttribute('padding-top'),
-                    'padding-right': component.getAttribute('padding-right'),
-                    'padding-bottom': component.getAttribute('padding-bottom'),
-                    'padding-left': component.getAttribute('padding-left'),
-                    'word-break': 'break-word',
-                  },
-                })}
-              >
-                ${component.render()}
-              </td>
-            </tr>
-          `,
-        })}
+        <tbody>
+          ${this.renderChildren(children, {
+            renderer: (component) =>
+              component.constructor.isRawElement()
+                ? component.render()
+                : `
+              <tr>
+                <td
+                  ${component.htmlAttributes({
+                    align: component.getAttribute('align'),
+                    'vertical-align': component.getAttribute('vertical-align'),
+                    class: component.getAttribute('css-class'),
+                    style: {
+                      background: component.getAttribute(
+                        'container-background-color',
+                      ),
+                      'font-size': '0px',
+                      padding: component.getAttribute('padding'),
+                      'padding-top': component.getAttribute('padding-top'),
+                      'padding-right': component.getAttribute('padding-right'),
+                      'padding-bottom': component.getAttribute(
+                        'padding-bottom',
+                      ),
+                      'padding-left': component.getAttribute('padding-left'),
+                      'word-break': 'break-word',
+                    },
+                  })}
+                >
+                  ${component.render()}
+                </td>
+              </tr>
+            `,
+          })}
+        </tbody>
       </table>
     `
   }

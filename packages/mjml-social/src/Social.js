@@ -1,6 +1,9 @@
 import { BodyComponent } from 'mjml-core'
+import { isNil } from 'lodash'
 
 export default class MjSocial extends BodyComponent {
+  static componentName = 'mj-social'
+
   static allowedAttributes = {
     align: 'enum(left,right,center)',
     'border-radius': 'unit(px,%)',
@@ -69,10 +72,12 @@ export default class MjSocial extends BodyComponent {
       'text-padding',
       'line-height',
       'text-decoration',
-    ].reduce((res, attr) => {
-      res[attr] = this.getAttribute(attr)
-      return res
-    }, base)
+    ]
+      .filter((e) => !isNil(this.getAttribute(e)))
+      .reduce((res, attr) => {
+        res[attr] = this.getAttribute(attr)
+        return res
+      }, base)
   }
 
   renderHorizontal() {
@@ -93,7 +98,10 @@ export default class MjSocial extends BodyComponent {
       <![endif]-->
       ${this.renderChildren(children, {
         attributes: this.getSocialElementAttributes(),
-        renderer: (component) => `
+        renderer: (component) =>
+          component.constructor.isRawElement()
+            ? component.render()
+            : `
             <!--[if mso | IE]>
               <td>
             <![endif]-->
@@ -110,7 +118,9 @@ export default class MjSocial extends BodyComponent {
                   },
                 })}
               >
-                ${component.render()}
+                <tbody>
+                  ${component.render()}
+                </tbody>
               </table>
             <!--[if mso | IE]>
               </td>
@@ -137,9 +147,11 @@ export default class MjSocial extends BodyComponent {
           style: 'tableVertical',
         })}
       >
-        ${this.renderChildren(children, {
-          attributes: this.getSocialElementAttributes(),
-        })}
+        <tbody>
+          ${this.renderChildren(children, {
+            attributes: this.getSocialElementAttributes(),
+          })}
+        </tbody>
       </table>
     `
   }
